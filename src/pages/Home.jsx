@@ -1,19 +1,19 @@
-import BestSeller from "../components/BestSeller"
-import Hero from "../components/Hero"
-import LatestCollection from "../components/LatestCollection"
-import { NewsLetterBox } from "../components/NewsLetterBox"
-import OurPolicy from "../components/OurPolicy"
+import BestSeller from "../components/BestSeller"; // Importing BestSeller component
+import Hero from "../components/Hero"; // Importing Hero component
+import LatestCollection from "../components/LatestCollection"; // Importing LatestCollection component
+import { NewsLetterBox } from "../components/NewsLetterBox"; // Importing NewsLetterBox component
+import OurPolicy from "../components/OurPolicy"; // Importing OurPolicy component
 
 const Home = () => {
   return (
     <div>
-      <Hero />
-      <LatestCollection />
-      <BestSeller />
-      <OurPolicy />
-      <NewsLetterBox />
+      <Hero /> {/* Displaying the Hero section */}
+      <LatestCollection /> {/* Displaying the Latest Collection section */}
+      <BestSeller /> {/* Displaying the Best Seller section */}
+      <OurPolicy /> {/* Displaying the Our Policy section */}
+      <NewsLetterBox /> {/* Displaying the Newsletter Box section */}
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

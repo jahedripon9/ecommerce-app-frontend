@@ -5,13 +5,13 @@ import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 
 const Collection = () => {
-    // Get the list of products from the ShopContext
+    // Get the list of products, search query, and showSearch flag from the context
     const { products, search, showSearch } = useContext(ShopContext);
 
     // State to manage the visibility of the filter section
     const [showFilter, setShowFilter] = useState(true);
 
-    // State to hold the filtered products based on category, subcategory, and sort
+    // State to hold the filtered products based on applied filters
     const [filterProducts, setFilterProducts] = useState([]);
 
     // State to track selected categories for filtering
@@ -21,32 +21,35 @@ const Collection = () => {
     const [subCategory, setSubCategory] = useState([]);
 
     // State to track the sorting type selected by the user
-    const [sortType, setSortType] = useState('relavent');
+    const [sortType, setSortType] = useState('relevant');
 
-    // Function to toggle categories for filtering
+    // Function to toggle selected categories for filtering
     const toggleCategory = (e) => {
         if (category.includes(e.target.value)) {
-            setCategory(prev => prev.filter(item => item !== e.target.value));
+            setCategory(prev => prev.filter(item => item !== e.target.value)); // Remove category if already selected
         } else {
-            setCategory(prev => [...prev, e.target.value]);
+            setCategory(prev => [...prev, e.target.value]); // Add category if not selected
         }
-    }
+    };
 
-    // Function to toggle subcategories for filtering
+    // Function to toggle selected subcategories for filtering
     const toggleSubCategory = (e) => {
         if (subCategory.includes(e.target.value)) {
-            setSubCategory(prev => prev.filter(item => item !== e.target.value));
+            setSubCategory(prev => prev.filter(item => item !== e.target.value)); // Remove subcategory if already selected
         } else {
-            setSubCategory(prev => [...prev, e.target.value]);
+            setSubCategory(prev => [...prev, e.target.value]); // Add subcategory if not selected
         }
-    }
+    };
 
-    // Function to apply category and subcategory filters to the product list
+    // Function to apply filters based on selected categories, subcategories, and search query
     const applyFilter = () => {
         let productsCopy = products.slice(); // Make a copy of the products array
 
+        // Apply search filter if the search bar is visible and has a value
         if (showSearch && search) {
-            productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+            productsCopy = productsCopy.filter(item =>
+                item.name.toLowerCase().includes(search.toLowerCase())
+            );
         }
 
         // Filter products by selected categories
@@ -61,7 +64,7 @@ const Collection = () => {
 
         // Update the filtered products state
         setFilterProducts(productsCopy);
-    }
+    };
 
     // Function to sort the filtered products based on the selected sort type
     const sortProduct = () => {
@@ -70,18 +73,18 @@ const Collection = () => {
         // Sort the products based on the selected sort type
         switch (sortType) {
             case 'low-high':
-                setFilterProducts(fpCopy.sort((a, b) => (a.price - b.price)));
+                setFilterProducts(fpCopy.sort((a, b) => (a.price - b.price))); // Sort by price low to high
                 break;
             case 'high-low':
-                setFilterProducts(fpCopy.sort((a, b) => (b.price - a.price)));
+                setFilterProducts(fpCopy.sort((a, b) => (b.price - a.price))); // Sort by price high to low
                 break;
             default:
-                applyFilter(); // Apply filters again if no specific sort type is selected
+                applyFilter(); // Reapply filters if no specific sort type is selected
                 break;
         }
-    }
+    };
 
-    // Apply filters whenever the category or subcategory changes
+    // Apply filters whenever the category, subcategory, search, or showSearch changes
     useEffect(() => {
         applyFilter();
     }, [category, subCategory, search, showSearch]);
@@ -95,6 +98,7 @@ const Collection = () => {
         <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
             {/* Left Side - Filter Section */}
             <div className="min-w-60">
+                {/* Filter toggle button for small screens */}
                 <p onClick={() => setShowFilter(!showFilter)} className="my-2 text-xl flex items-center cursor-pointer gap-2">
                     FILTERS
                     <img className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`} src={assets.dropdown_icon} alt="" />
@@ -108,7 +112,7 @@ const Collection = () => {
                             <input type="checkbox" className="w-3" value={'Men'} onChange={toggleCategory} />Men
                         </p>
                         <p className="flex gap-2">
-                            <input type="checkbox" className="w-3" value={'Women'} onChange={toggleCategory} />Woman
+                            <input type="checkbox" className="w-3" value={'Women'} onChange={toggleCategory} />Women
                         </p>
                         <p className="flex gap-2">
                             <input type="checkbox" className="w-3" value={'Kids'} onChange={toggleCategory} />Kids
@@ -134,8 +138,9 @@ const Collection = () => {
             </div>
 
             {/* Right Side - Products Section */}
-            <div className="flex-1 ">
+            <div className="flex-1">
                 <div className="flex justify-between text-base sm:text-2xl mb-4">
+                    {/* Title component for displaying the collection name */}
                     <Title text1={"All "} text2={" COLLECTION"} />
 
                     {/* Product Sort Dropdown */}
@@ -157,6 +162,6 @@ const Collection = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Collection;

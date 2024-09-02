@@ -9,12 +9,14 @@ const OurPolicy = () => {
                 <p className="font-semibold">Easy Exchange Policy</p> {/* Title for the policy */}
                 <p className="text-gray-400">We offer hassle free exchange policy</p> {/* Description of the policy */}
             </div>
+
             {/* Policy 2: 7 Days Return */}
             <div>
                 <img src={assets.quality_icon} alt="quality_icon" className="w-12 m-auto mb-5" /> {/* Displaying quality icon */}
                 <p className="font-semibold">7 Days Return Policy</p> {/* Title for the policy */}
                 <p className="text-gray-400">We provide 7 days free return policy</p> {/* Description of the policy */}
             </div>
+
             {/* Policy 3: Customer Support */}
             <div>
                 <img src={assets.support_img} alt="support_img" className="w-12 m-auto mb-5" /> {/* Displaying support icon */}

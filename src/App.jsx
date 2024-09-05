@@ -11,10 +11,13 @@ import Orders from "./pages/Orders"; // Importing the Orders page component
 import Navbar from "./components/Navbar"; // Importing the Navbar component
 import Footer from "./components/Footer"; // Importing the Footer component
 import SearchBar from "./components/SearchBar"; // Importing the SearchBar component
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      <ToastContainer  />
       <Navbar /> {/* Rendering the Navbar component */}
       <SearchBar /> {/* Rendering the SearchBar component */}
       <Routes> {/* Defining routes for different pages */}

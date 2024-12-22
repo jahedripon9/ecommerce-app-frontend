@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"; // Import PropTypes for type checking
-import { products } from '../assets/frontend_assets/assets.js'; // Import product data
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Create a new context for the shop
 export const ShopContext = createContext();
@@ -11,11 +11,12 @@ const ShopContextProvider = (props) => {
     // Static data related to the shop
     const currency = "$"; // Default currency
     const delivery_fee = 10; // Standard delivery fee
-
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     // State for search functionality
     const [search, setSearch] = useState(''); // Stores the search query
     const [showSearch, setShowSearch] = useState(false); // Controls the visibility of the search bar
     const [cartItems, setCartItems] = useState({});
+    const [products, setProducts] = useState([]); // Stores the list of products
     const navigate = useNavigate();
 
 
@@ -50,7 +51,7 @@ const ShopContextProvider = (props) => {
                         totalCount += cartItems[items][item];
                     }
                 } catch (error) {
-
+                    console.log(error);
                 }
             }
         }
@@ -74,12 +75,30 @@ const ShopContextProvider = (props) => {
                         totalAmount += itemInfo.price * cartItems[items][item];
                     }
                 } catch (error) {
-
+                    console.log(error);
                 }
             }
         }
         return totalAmount;
     }
+
+    const getProductsData = async () => {
+        try {
+
+            const response = await axios.get(backendUrl + '/api/product/list');
+            if (response.data.success) {
+                setProducts(response.data.products);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
+    useEffect(() => {
+        getProductsData();
+    }, [])
 
     // Combine all the state and static data into a single value object
     const value = {
@@ -88,7 +107,7 @@ const ShopContextProvider = (props) => {
         delivery_fee, // Delivery fee
         search, setSearch, // Search state and setter
         showSearch, setShowSearch,
-        cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate
+        cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, backendUrl
         // Search bar visibility state and setter
     };
 

@@ -17,6 +17,7 @@ const ShopContextProvider = (props) => {
     const [showSearch, setShowSearch] = useState(false); // Controls the visibility of the search bar
     const [cartItems, setCartItems] = useState({});
     const [products, setProducts] = useState([]); // Stores the list of products
+    const [token, setToken] = useState('');
     const navigate = useNavigate();
 
 
@@ -100,6 +101,12 @@ const ShopContextProvider = (props) => {
         getProductsData();
     }, [])
 
+    useEffect(() => {
+        if (!token && localStorage.getItem('token')) {
+            setToken(localStorage.getItem('token'));
+        }
+    }, [])
+
     // Combine all the state and static data into a single value object
     const value = {
         products, // Product list
@@ -107,7 +114,7 @@ const ShopContextProvider = (props) => {
         delivery_fee, // Delivery fee
         search, setSearch, // Search state and setter
         showSearch, setShowSearch,
-        cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, backendUrl
+        cartItems, addToCart, getCartCount, updateQuantity, getCartAmount, navigate, backendUrl, token, setToken
         // Search bar visibility state and setter
     };
 

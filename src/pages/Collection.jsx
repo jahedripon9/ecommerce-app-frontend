@@ -87,7 +87,7 @@ const Collection = () => {
     // Apply filters whenever the category, subcategory, search, or showSearch changes
     useEffect(() => {
         applyFilter();
-    }, [category, subCategory, search, showSearch,products]);
+    }, [category, subCategory, search, showSearch, products]);
 
     // Sort products whenever the sort type changes
     useEffect(() => {
